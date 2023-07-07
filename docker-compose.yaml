@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  app:
+    build: .
+    ports:
+      - "4444:4444"
+    volumes:
+      - .:/app
+    command: node index.js

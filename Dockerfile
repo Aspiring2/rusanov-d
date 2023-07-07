@@ -2,16 +2,21 @@
 FROM node:18.16.1
 
 # Установка рабочей директории внутри контейнера
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Копирование package.json и package-lock.json
+# Копирование зависимостей и package.json
 COPY package*.json ./
 
-# Установка зависимостей проекта
+# Установка зависимостей
+RUN rm -rf node_modules
+RUN npm cache clean --force
 RUN npm install
 
-# Копирование остальных файлов проекта
+# Копирование исходного кода
 COPY . .
 
-# Установка команды запуска приложения
-CMD [ "node", "index.js" ]
+# Открытие порта, на котором будет работать приложение
+EXPOSE 3000
+
+# Команда, которая будет запущена при старте контейнера
+CMD ["npm", "start"]
